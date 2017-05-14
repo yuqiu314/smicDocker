@@ -1,0 +1,8 @@
+  div.jp-interface {
+   margin-top:-100px;
+   z-index: -100;
+  }
+  div.jp-video {
+    border: none;
+    
+  }

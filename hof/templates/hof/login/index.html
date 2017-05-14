@@ -1,0 +1,58 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+  <!-- jQuery and jQuery UI -->
+  <script type="text/javascript" src="/static/javascripts/jquery-1.8.3.min.js"></script> 
+  <script type="text/javascript" src="/static/javascripts/jquery.cookie.min.js"></script> 
+      <script language="javascript">
+    $(document).ready(function() {
+    
+        var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+        
+    var redirecturl = getUrlParameter('redir')
+                // Firefox 1.0+
+            var isFirefox = typeof InstallTrigger !== 'undefined';
+                // Internet Explorer 6-11
+            var isIE = /*@cc_on!@*/false || !!document.documentMode;
+            if(isFirefox) {
+                //$.cookie('login_user', Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment).get('USERNAME'), {expires: 10, path: '/'})
+                redirecturl += '?u=' + Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment).get('USERNAME')
+                $(window.location).attr('href', redirecturl);
+            }
+            else if(isIE) {
+                try {
+                var wshell = new ActiveXObject("WScript.Shell");
+                //$.cookie('login_user', wshell.ExpandEnvironmentStrings("%USERNAME%"), {expires: 10, path: '/'});
+                redirecturl += '?u=' + wshell.ExpandEnvironmentStrings("%USERNAME%")
+                $(window.location).attr('href', redirecturl);
+                }
+                catch(e) {
+                    alert("请将本站点加入可信任站点，并且允许ActiveX控件，以便获取您的用户信息！（1、工具->Internet选项->安全->受信任的站点，添加本站点；2、选中受信任站点，点击自定义级别，启用ActiveX控件和插件相关项即可。）")
+                    $(window.location).attr('href', '/');
+                }
+            }
+            else {
+                alert("当前浏览器不支持获取用户名，请使用FireFox或者IE浏览器。")
+                $(window.location).attr('href', '/');
+                //$.cookie('login_user', 'E000524', {expires: 10, path: '/'});
+                //$(window.location).attr('href', redirecturl);
+            }
+        })
+    </script>
+</body>
+</html>

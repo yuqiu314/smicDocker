@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script language="javascript">
+        function getUser() {
+                // Firefox 1.0+
+            var isFirefox = typeof InstallTrigger !== 'undefined';
+                // Internet Explorer 6-11
+            var isIE = /*@cc_on!@*/false || !!document.documentMode;
+            if(isFirefox)
+                alert(Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment).get('USERNAME'))
+            else if(isIE) {
+                var wshell = new ActiveXObject("WScript.Shell");
+                alert(wshell.ExpandEnvironmentStrings("%USERNAME%"));
+            }
+            else {
+                alert("当前浏览器不支持，请使用FireFox或者IE浏览器。")
+            }
+        }
+    </script>
+</head>
+<body OnLoad="getUser();">
+</body>
+</html>

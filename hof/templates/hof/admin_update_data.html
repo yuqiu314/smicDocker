@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+    {% if success %}
+    <p style="color: blue;">
+            excel解析完毕。详细日志如下：
+        </p>
+        {% if logs %}
+        {% for log in logs %}
+        <p>{{ log }}</p>
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+    <h1>请选择一个excel文件上传</h1>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            发生错误：{{ form.errors|pluralize }} 
+        </p>
+    {% endif %}
+
+    <form action="" enctype="multipart/form-data"  method="post">
+        <table>
+            {{ form.as_table }}
+        </table>
+        {% csrf_token %}
+        <input type="submit" value="提交">
+    </form>
+{% endblock %}
